@@ -1,0 +1,1123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Règles - Heiwa Serveur Minecraft</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #8b5cf6 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                /* Cercles flottants */
+                radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(102, 126, 234, 0.2) 0%, transparent 50%),
+                /* Motifs géométriques */
+                conic-gradient(from 45deg at 10% 90%, rgba(139, 92, 246, 0.1) 0deg, transparent 60deg, transparent 300deg, rgba(139, 92, 246, 0.1) 360deg),
+                conic-gradient(from 135deg at 90% 10%, rgba(118, 75, 162, 0.1) 0deg, transparent 60deg, transparent 300deg, rgba(118, 75, 162, 0.1) 360deg),
+                /* Lignes décoratives */
+                linear-gradient(45deg, transparent 48%, rgba(139, 92, 246, 0.1) 49%, rgba(139, 92, 246, 0.1) 51%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, rgba(118, 75, 162, 0.1) 49%, rgba(118, 75, 162, 0.1) 51%, transparent 52%),
+                /* Points décoratifs */
+                radial-gradient(circle at 25% 25%, rgba(102, 126, 234, 0.15) 1px, transparent 2px),
+                radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.15) 1px, transparent 2px),
+                radial-gradient(circle at 50% 10%, rgba(118, 75, 162, 0.15) 1px, transparent 2px);
+            background-size: 
+                100% 100%, 100% 100%, 100% 100%, 
+                200px 200px, 200px 200px,
+                100px 100px, 100px 100px,
+                50px 50px, 50px 50px, 50px 50px;
+            animation: 
+                float 20s ease-in-out infinite,
+                rotate-pattern 30s linear infinite;
+            z-index: -1;
+        }
+
+        /* Additional animated patterns */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                /* Hexagon pattern */
+                repeating-linear-gradient(30deg, transparent, transparent 35px, rgba(139, 92, 246, 0.03) 35px, rgba(139, 92, 246, 0.03) 70px),
+                repeating-linear-gradient(-30deg, transparent, transparent 35px, rgba(118, 75, 162, 0.03) 35px, rgba(118, 75, 162, 0.03) 70px),
+                repeating-linear-gradient(90deg, transparent, transparent 35px, rgba(102, 126, 234, 0.03) 35px, rgba(102, 126, 234, 0.03) 70px);
+            animation: drift 25s ease-in-out infinite;
+            z-index: -1;
+        }
+
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(1deg); }
+            66% { transform: translateY(10px) rotate(-1deg); }
+        }
+
+        @keyframes rotate-pattern {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes drift {
+            0% { transform: translateX(0px); }
+            100% { transform: translateX(100px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar {
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-logo a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+            filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.3));
+            transition: all 0.3s ease;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.4));
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 16px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-link.active {
+            color: white;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(118, 75, 162, 0.3));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #764ba2;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem 0;
+            min-height: calc(100vh - 100px);
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 3rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Rules Section */
+        .rules-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .rules-intro {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .rules-intro h2 {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .rules-intro p {
+            color: #666;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .rules-categories {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .rule-category {
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            border-left: 4px solid #764ba2;
+        }
+
+        .rule-category h3 {
+            color: #764ba2;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .rule-category ul {
+            list-style: none;
+            margin-left: 1rem;
+        }
+
+        .rule-category li {
+            padding: 0.5rem 0;
+            color: #666;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .rule-category li::before {
+            content: '•';
+            position: absolute;
+            left: 0;
+            color: #764ba2;
+            font-weight: bold;
+        }
+
+        /* Sanctions Table */
+        .sanctions-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .sanctions-section h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .sanctions-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .sanctions-table th,
+        .sanctions-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+
+        .sanctions-table th {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            font-weight: 600;
+        }
+
+        .sanctions-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .sanctions-table tr:nth-child(even) {
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .severity-low {
+            color: #27ae60;
+            font-weight: 600;
+        }
+
+        .severity-medium {
+            color: #f39c12;
+            font-weight: 600;
+        }
+
+        .severity-high {
+            color: #e74c3c;
+            font-weight: 600;
+        }
+
+        .severity-critical {
+            color: #8e44ad;
+            font-weight: 600;
+        }
+
+        /* Important Notice */
+        .notice-box {
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 2rem;
+            border-radius: 15px;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .notice-box h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .notice-box p {
+            margin-bottom: 1rem;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            background: white;
+            color: #e74c3c;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Tips Section */
+        .tips-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .tips-section h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 2rem;
+            font-size: 2rem;
+        }
+
+        .tips-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tip-card {
+            background: rgba(102, 126, 234, 0.1);
+            padding: 1.5rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+
+        .tip-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .tip-icon {
+            font-size: 2.5rem;
+            color: #764ba2;
+            margin-bottom: 1rem;
+        }
+
+        .tip-card h4 {
+            color: #333;
+            margin-bottom: 0.5rem;
+        }
+
+        .tip-card p {
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 2rem 0 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            padding: 0 20px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #667eea;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: #667eea;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .rules-categories {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+            
+            .sanctions-table {
+                font-size: 0.9rem;
+            }
+            
+            .sanctions-table th,
+            .sanctions-table td {
+                padding: 0.5rem;
+            }
+            
+            .tips-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        /* Auth Buttons */
+        .auth-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .login-btn {
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid rgba(76, 175, 80, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
+        }
+
+        .login-btn:hover {
+            background: rgba(76, 175, 80, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .register-btn {
+            background: rgba(33, 150, 243, 0.2);
+            border: 2px solid rgba(33, 150, 243, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
+        }
+
+        .register-btn:hover {
+            background: rgba(33, 150, 243, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .tips-user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .coins-display {
+            background: rgba(255, 215, 0, 0.2);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 25px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .coins-display:hover {
+            background: rgba(255, 215, 0, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .coins-display i {
+            color: #ffd700;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .coins-display span {
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .login-btn {
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid rgba(76, 175, 80, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
+        }
+
+        .login-btn:hover {
+            background: rgba(76, 175, 80, 0.3);
+            transform: translateY(-2px);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-left">
+                    <div class="nav-logo">
+                        <a href="accueil.html">
+                            <img src="images/heiwalogo.png" alt="Heiwa Logo" class="logo-img">
+                        </a>
+                    </div>
+                    <ul class="nav-menu">
+                        <li><a href="accueil.html" class="nav-link">Accueil</a></li>
+                        <li><a href="boutique.html" class="nav-link">Boutique</a></li>
+                        <li><a href="grades.html" class="nav-link">Grades</a></li>
+                        <li><a href="support.html" class="nav-link">Support</a></li>
+                        <li><a href="regles.html" class="nav-link active">Règles</a></li>
+                        <li><a href="faq.html" class="nav-link">FAQ</a></li>
+                        <li><a href="parametres.html" class="nav-link"><i class="fas fa-cog"></i></a></li>
+                    </ul>
+                </div>
+                <div class="nav-right">
+                    <div class="user-info">
+                        <div class="coins-display">
+                            <i class="fas fa-coins"></i>
+                            <span id="user-coins">0</span>
+                        </div>
+                        <a href="login.html" class="login-btn">
+                            <i class="fas fa-sign-in-alt"></i> Se connecter
+                        </a>
+                    </div>
+                    <div class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>Règles du Serveur</h1>
+            <p>Respectez ces règles pour garantir une expérience agréable pour tous les joueurs</p>
+        </div>
+
+        <div class="container">
+            <!-- Important Notice -->
+            <div class="notice-box">
+                <h3><i class="fas fa-exclamation-triangle"></i> Important</h3>
+                <p>Toute violation des règles peut entraîner des sanctions allant d'un avertissement à un bannissement permanent.</p>
+                <p>Les excuses comme "je ne savais pas" ne seront pas acceptées. Lisez attentivement toutes les règles!</p>
+                <a href="support.html" class="btn">Contacter le Support</a>
+            </div>
+
+            <!-- Rules Section -->
+            <section class="rules-section">
+                <div class="rules-intro">
+                    <h2>Règles Générales</h2>
+                    <p>Ces règles s'appliquent à tous les joueurs du serveur Heiwa. Le respect mutuel est la base de notre communauté.</p>
+                </div>
+
+                <div class="rules-categories">
+                    <!-- Chat Rules -->
+                    <div class="rule-category">
+                        <h3><i class="fas fa-comments"></i> Chat & Communication</h3>
+                        <ul>
+                            <li>Interdiction d'insulter ou harceler d'autres joueurs</li>
+                            <li>Pas de spam, flood ou messages répétitifs</li>
+                            <li>Pas de publicité pour d'autres serveurs</li>
+                            <li>Pas de contenu inapproprié (violence, adulte, etc.)</li>
+                            <li>Respecter les langues autorisées (français, anglais)</li>
+                            <li>Pas de menaces ou intimidation</li>
+                        </ul>
+                    </div>
+
+                    <!-- Gameplay Rules -->
+                    <div class="rule-category">
+                        <h3><i class="fas fa-gamepad"></i> Gameplay</h3>
+                        <ul>
+                            <li>Interdiction d'utiliser des cheats ou hacks</li>
+                            <li>Pas d'exploitation de bugs ou glitches</li>
+                            <li>Interdiction de grief (détruire les constructions d'autres)</li>
+                            <li>Pas de vol d'objets ou de blocs</li>
+                            <li>Respecter les zones privées et protections</li>
+                            <li>Pas de farming automatique non autorisé</li>
+                        </ul>
+                    </div>
+
+                    <!-- Building Rules -->
+                    <div class="rule-category">
+                        <h3><i class="fas fa-home"></i> Constructions</h3>
+                        <ul>
+                            <li>Pas de constructions inappropriées ou offensantes</li>
+                            <li>Respecter les limites de parcelles</li>
+                            <li>Pas de constructions massives sans permission staff</li>
+                            <li>Maintenir vos constructions actives (30 jours inactivité = reset)</li>
+                            <li>Pas de redstone/lag machines excessives</li>
+                            <li>Respecter l'esthétique générale du serveur</li>
+                        </ul>
+                    </div>
+
+                    <!-- Economy Rules -->
+                    <div class="rule-category">
+                        <h3><i class="fas fa-coins"></i> Économie & Commerce</h3>
+                        <ul>
+                            <li>Interdiction de triche économique</li>
+                            <li>Pas de vente d'objets buggés ou dupliqués</li>
+                            <li>Respecter les prix du marché équitable</li>
+                            <li>Pas d'arnaques ou escroqueries</li>
+                            <li>Transactions réelles uniquement (pas de faux deals)</li>
+                            <li>Respecter les règles du shop administratif</li>
+                        </ul>
+                    </div>
+
+                    <!-- PvP Rules -->
+                    <div class="rule-category">
+                        <h3><i class="fas fa-swords"></i> PvP & Combat</h3>
+                        <ul>
+                            <li>Respecter les zones non-PvP</li>
+                            <li>Pas de spawn killing ou camping</li>
+                            <li>Interdiction d'utiliser des hacks en PvP</li>
+                            <li>Pas de trash talk excessif en combat</li>
+                            <li>Respecter les règles des événements PvP</li>
+                            <li>Pas de teaming en zones FFA (sauf autorisé)</li>
+                        </ul>
+                    </div>
+
+                    <!-- Account Rules -->
+                    <div class="rule-category">
+                        <h3><i class="fas fa-user-shield"></i> Comptes & Sécurité</h3>
+                        <ul>
+                            <li>Un compte par joueur (pas de multi-comptes)</li>
+                            <li>Responsabilité de la sécurité de votre compte</li>
+                            <li>Pas de partage de comptes</li>
+                            <li>Informations de compte véridiques</li>
+                            <li>Pas de vente ou échange de comptes</li>
+                            <li>Signaler immédiatement tout compromis de compte</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sanctions Table -->
+            <section class="sanctions-section">
+                <h2>Sanctions Prévues</h2>
+                <table class="sanctions-table">
+                    <thead>
+                        <tr>
+                            <th>Infraction</th>
+                            <th>Gravité</th>
+                            <th>Sanction</th>
+                            <th>Durée</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Spam/Flood léger</td>
+                            <td><span class="severity-low">Faible</span></td>
+                            <td>Avertissement</td>
+                            <td>Immédiat</td>
+                        </tr>
+                        <tr>
+                            <td>Insultes légères</td>
+                            <td><span class="severity-medium">Moyenne</span></td>
+                            <td>Mute</td>
+                            <td>1-24 heures</td>
+                        </tr>
+                        <tr>
+                            <td>Grief mineur</td>
+                            <td><span class="severity-medium">Moyenne</span></td>
+                            <td>Tempban</td>
+                            <td>1-7 jours</td>
+                        </tr>
+                        <tr>
+                            <td>Hacks/Cheats</td>
+                            <td><span class="severity-high">Élevée</span></td>
+                            <td>Tempban</td>
+                            <td>30-90 jours</td>
+                        </tr>
+                        <tr>
+                            <td>Menaces/Harcèlement</td>
+                            <td><span class="severity-high">Élevée</span></td>
+                            <td>Tempban</td>
+                            <td>30-90 jours</td>
+                        </tr>
+                        <tr>
+                            <td>Récidive hacks graves</td>
+                            <td><span class="severity-critical">Critique</span></td>
+                            <td>Ban permanent</td>
+                            <td>Définitif</td>
+                        </tr>
+                        <tr>
+                            <td>Publicité serveur concurrent</td>
+                            <td><span class="severity-high">Élevée</span></td>
+                            <td>Mute + Tempban</td>
+                            <td>7-30 jours</td>
+                        </tr>
+                        <tr>
+                            <td>Multi-comptes abusifs</td>
+                            <td><span class="severity-medium">Moyenne</span></td>
+                            <td>Suppression comptes</td>
+                            <td>Immédiat</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+
+            <!-- Tips Section -->
+            <section class="tips-section">
+                <h2>Conseils pour bien jouer</h2>
+                <div class="tips-user-info">
+                    <div class="coins-display">
+                        <i class="fas fa-coins"></i>
+                        <span id="tips-user-coins">0</span>
+                    </div>
+                    <a href="login.html" class="login-btn">
+                        <i class="fas fa-sign-in-alt"></i> Se connecter
+                    </a>
+                </div>
+                <div class="tips-grid">
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h4>Protégez vos biens</h4>
+                        <p>Utilisez les systèmes de protection disponibles et ne partagez jamais vos coordonnées privées.</p>
+                    </div>
+
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h4>Jouez en équipe</h4>
+                        <p>Rejoignez une communauté ou créez votre propre groupe pour profiter pleinement du serveur.</p>
+                    </div>
+
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-question-circle"></i>
+                        </div>
+                        <h4>Demandez de l'aide</h4>
+                        <p>Le staff est là pour vous aider. N'hésitez pas à poser des questions sur le chat ou Discord.</p>
+                    </div>
+
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-book"></i>
+                        </div>
+                        <h4>Lisez les guides</h4>
+                        <p>Consultez notre documentation et tutoriels pour bien démarrer et progresser rapidement.</p>
+                    </div>
+
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <h4>Soyez respectueux</h4>
+                        <p>Une communauté amicale est plus agréable. Traitez les autres comme vous aimeriez être traité.</p>
+                    </div>
+
+                    <div class="tip-card">
+                        <div class="tip-icon">
+                            <i class="fas fa-flag"></i>
+                        </div>
+                        <h4>Signalez les problèmes</h4>
+                        <p>Si vous voyez une infraction, signalez-la au staff plutôt que de prendre la justice en main.</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Heiwa Serveur</h3>
+                <p>Le meilleur serveur Minecraft pour votre aventure</p>
+                <div class="social-links">
+                    <a href="https://discord.gg/Vk64XqRD" target="_blank"><i class="fab fa-discord"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Liens Utiles</h3>
+                <ul>
+                    <li><a href="regles.html">Règles du serveur</a></li>
+                    <li><a href="support.html">Support</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="boutique.html">Boutique</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Informations</h3>
+                <ul>
+                    <li><a href="conditions.html">Conditions d'utilisation</a></li>
+                    <li><a href="privacy.html">Politique de confidentialité</a></li>
+                    <li><a href="remboursement.html">Politique de remboursement</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Heiwa Serveur Minecraft. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize user coins from logged in user
+            initializeUserCoinsFromUser();
+            
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.classList.toggle('active');
+            });
+        });
+
+        function checkLoginStatus() {
+            // Login is no longer required - users can browse without being logged in
+            return true;
+        }
+
+        function getCurrentUser() {
+            const user = localStorage.getItem('currentUser');
+            return user ? JSON.parse(user) : null;
+        }
+
+        function initializeUserCoinsFromUser() {
+            const currentUser = getCurrentUser();
+            if (currentUser) {
+                // Display coins from logged in user
+                updateCoinsDisplay(currentUser.coins);
+                updateAuthButtons(true);
+            } else {
+                // Display 0 coins for non-logged in users
+                updateCoinsDisplay(0);
+                updateAuthButtons(false);
+            }
+        }
+
+        function updateAuthButtons(isLoggedIn) {
+            const userSection = document.querySelector('.user-info');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (userSection) {
+                if (isLoggedIn) {
+                    const currentUser = getCurrentUser();
+                    userSection.innerHTML = `
+                        <div class="coins-display">
+                            <i class="fas fa-coins"></i>
+                            <span id="user-coins">${currentUser.coins}</span>
+                        </div>
+                        <a href="#" onclick="logout()" class="login-btn">
+                            <i class="fas fa-sign-out-alt"></i> Déconnexion
+                        </a>
+                    `;
+                } else {
+                    userSection.innerHTML = `
+                        <div class="coins-display">
+                            <i class="fas fa-coins"></i>
+                            <span id="user-coins">0</span>
+                        </div>
+                        <a href="login.html" class="login-btn">
+                            <i class="fas fa-sign-in-alt"></i> Se connecter
+                        </a>
+                    `;
+                }
+                
+                // Remove Admin link from navigation if it exists
+                if (navMenu) {
+                    const adminLink = navMenu.querySelector('.admin-nav-link');
+                    if (adminLink) {
+                        adminLink.parentElement.remove();
+                    }
+                }
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            location.reload();
+        }
+
+        function updateCoinsDisplay(amount) {
+            const coinsElement = document.getElementById('user-coins');
+            if (coinsElement) {
+                coinsElement.textContent = amount.toLocaleString();
+                
+                // Add animation effect
+                coinsElement.style.transform = 'scale(1.2)';
+                coinsElement.style.color = '#ffd700';
+                
+                setTimeout(() => {
+                    coinsElement.style.transform = 'scale(1)';
+                    coinsElement.style.color = 'white';
+                }, 300);
+            }
+        }
+
+        // Add animations
+        const style = document.createElement('style');
+        style.textContent = `
+            .nav-menu.active {
+                display: flex !important;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.95);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            }
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

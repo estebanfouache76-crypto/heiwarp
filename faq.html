@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FAQ - Heiwa Serveur Minecraft</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #8b5cf6 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                /* Cercles flottants */
+                radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(102, 126, 234, 0.2) 0%, transparent 50%),
+                /* Motifs géométriques */
+                conic-gradient(from 45deg at 10% 90%, rgba(139, 92, 246, 0.1) 0deg, transparent 60deg, transparent 300deg, rgba(139, 92, 246, 0.1) 360deg),
+                conic-gradient(from 135deg at 90% 10%, rgba(118, 75, 162, 0.1) 0deg, transparent 60deg, transparent 300deg, rgba(118, 75, 162, 0.1) 360deg),
+                /* Lignes décoratives */
+                linear-gradient(45deg, transparent 48%, rgba(139, 92, 246, 0.1) 49%, rgba(139, 92, 246, 0.1) 51%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, rgba(118, 75, 162, 0.1) 49%, rgba(118, 75, 162, 0.1) 51%, transparent 52%),
+                /* Points décoratifs */
+                radial-gradient(circle at 25% 25%, rgba(102, 126, 234, 0.15) 1px, transparent 2px),
+                radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.15) 1px, transparent 2px),
+                radial-gradient(circle at 50% 10%, rgba(118, 75, 162, 0.15) 1px, transparent 2px);
+            background-size: 
+                100% 100%, 100% 100%, 100% 100%, 
+                200px 200px, 200px 200px,
+                100px 100px, 100px 100px,
+                50px 50px, 50px 50px, 50px 50px;
+            animation: 
+                float 20s ease-in-out infinite,
+                rotate-pattern 30s linear infinite;
+            z-index: -1;
+        }
+
+        /* Additional animated patterns */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                /* Hexagon pattern */
+                repeating-linear-gradient(30deg, transparent, transparent 35px, rgba(139, 92, 246, 0.03) 35px, rgba(139, 92, 246, 0.03) 70px),
+                repeating-linear-gradient(-30deg, transparent, transparent 35px, rgba(118, 75, 162, 0.03) 35px, rgba(118, 75, 162, 0.03) 70px),
+                repeating-linear-gradient(90deg, transparent, transparent 35px, rgba(102, 126, 234, 0.03) 35px, rgba(102, 126, 234, 0.03) 70px);
+            animation: drift 25s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(1deg); }
+            66% { transform: translateY(10px) rotate(-1deg); }
+        }
+
+        @keyframes rotate-pattern {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(10px, -10px); }
+            50% { transform: translate(-10px, 10px); }
+            75% { transform: translate(10px, 10px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar {
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-logo a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+            filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.3));
+            transition: all 0.3s ease;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.4));
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 8px 16px;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+        }
+
+        .nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-link.active {
+            color: white;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(118, 75, 162, 0.3));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #764ba2;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .coins-display {
+            background: rgba(255, 215, 0, 0.2);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 25px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .coins-display:hover {
+            background: rgba(255, 215, 0, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .coins-display i {
+            color: #ffd700;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .coins-display span {
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .login-btn {
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid rgba(76, 175, 80, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
+        }
+
+        .login-btn:hover {
+            background: rgba(76, 175, 80, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .admin-btn {
+            background: rgba(220, 53, 69, 0.2);
+            border: 2px solid rgba(220, 53, 69, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
+        }
+
+        .admin-btn:hover {
+            background: rgba(220, 53, 69, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .register-btn {
+            background: rgba(33, 150, 243, 0.2);
+            border: 2px solid rgba(33, 150, 243, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
+        }
+
+        .register-btn:hover {
+            background: rgba(33, 150, 243, 0.3);
+            transform: translateY(-2px);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem 0;
+            min-height: calc(100vh - 100px);
+        }
+
+        .page-header {
+            text-align: center;
+            padding: 3rem 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            color: white;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .page-header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Search Section */
+        .search-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .search-container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 15px 50px 15px 20px;
+            border: 2px solid #ddd;
+            border-radius: 50px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #764ba2;
+        }
+
+        .search-btn {
+            position: absolute;
+            right: 5px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .search-btn:hover {
+            transform: translateY(-50%) scale(1.1);
+        }
+
+        /* FAQ Categories */
+        .faq-categories {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .category-btn {
+            padding: 8px 20px;
+            border: 2px solid #764ba2;
+            background: white;
+            color: #764ba2;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .category-btn.active,
+        .category-btn:hover {
+            background: #764ba2;
+            color: white;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .faq-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .faq-item {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            background: rgba(102, 126, 234, 0.1);
+            cursor: pointer;
+            font-weight: 600;
+            color: #333;
+            transition: background 0.3s ease;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover {
+            background: rgba(102, 126, 234, 0.2);
+        }
+
+        .faq-question .icon {
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question .icon {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 1.5rem;
+            max-height: 500px;
+        }
+
+        .faq-category {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: #764ba2;
+            color: white;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-left: 1rem;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .contact-section h2 {
+            color: #333;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .contact-section p {
+            color: #666;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .contact-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 50px;
+            font-weight: 500;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            box-shadow: 0 4px 15px rgba(118, 75, 162, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(118, 75, 162, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #764ba2;
+            border: 2px solid #764ba2;
+        }
+
+        .btn-secondary:hover {
+            background: #764ba2;
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 2rem 0 1rem;
+            text-align: center;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+            max-width: 1200px;
+            margin: 0 auto 2rem;
+            padding: 0 20px;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #667eea;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: #667eea;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+            justify-content: center;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .social-links a:hover {
+            background: #667eea;
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+            
+            .page-header h1 {
+                font-size: 2rem;
+            }
+            
+            .faq-categories {
+                justify-content: center;
+            }
+            
+            .contact-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-left">
+                    <div class="nav-logo">
+                        <a href="accueil.html">
+                            <img src="images/heiwalogo.png" alt="Heiwa Logo" class="logo-img">
+                        </a>
+                    </div>
+                    <ul class="nav-menu">
+                        <li><a href="accueil.html" class="nav-link active">Accueil</a></li>
+                        <li><a href="boutique.html" class="nav-link">Boutique</a></li>
+                        <li><a href="grades.html" class="nav-link">Grades</a></li>
+                        <li><a href="support.html" class="nav-link">Support</a></li>
+                        <li><a href="regles.html" class="nav-link">Règles</a></li>
+                        <li><a href="faq.html" class="nav-link">FAQ</a></li>
+                        <li><a href="parametres.html" class="nav-link"><i class="fas fa-cog"></i></a></li>
+                    </ul>
+                </div>
+                <div class="nav-right">
+                    <div class="user-info">
+                        <div class="coins-display">
+                            <i class="fas fa-coins"></i>
+                            <span id="user-coins">0</span>
+                        </div>
+                        <a href="login.html" class="login-btn">
+                            <i class="fas fa-sign-in-alt"></i> Se connecter
+                        </a>
+                    </div>
+                    <div class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="page-header">
+            <h1>FAQ - Questions Fréquentes</h1>
+            <p>Trouvez rapidement les réponses à vos questions sur le serveur Heiwa</p>
+        </div>
+
+        <div class="container">
+            <!-- Search Section -->
+            <section class="search-section">
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" class="search-input" id="search-input" placeholder="Rechercher une question...">
+                        <button class="search-btn" onclick="searchFAQ()">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- FAQ Categories -->
+            <div class="faq-categories">
+                <button class="category-btn active" onclick="filterCategory('all')">Tout</button>
+                <button class="category-btn" onclick="filterCategory('general')">Général</button>
+                <button class="category-btn" onclick="filterCategory('grades')">Grades</button>
+                <button class="category-btn" onclick="filterCategory('boutique')">Boutique</button>
+                <button class="category-btn" onclick="filterCategory('technique')">Technique</button>
+                <button class="category-btn" onclick="filterCategory('regles')">Règles</button>
+            </div>
+
+            <!-- FAQ Section -->
+            <section class="faq-section">
+                <div class="faq-grid" id="faq-grid">
+                    <!-- General Questions -->
+                    <div class="faq-item" data-category="general">
+                        <div class="faq-question">
+                            <span>Comment rejoindre le serveur Heiwa ?</span>
+                            <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            Pour rejoindre le serveur Heiwa, lancez Minecraft en version 1.20.x, allez dans multijoueur, ajoutez un serveur avec l'IP "play.heiwa.mc" et connectez-vous. Assurez-vous d'avoir un compte Minecraft premium.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="general">
+                        <div class="faq-question">
+                            <span>Quelle est la version du serveur ?</span>
+                            <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            Le serveur Heiwa fonctionne en version 1.20.x. Vous pouvez vous connecter avec les versions 1.17 à 1.20, mais nous recommandons d'utiliser la dernière version pour une meilleure expérience.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="general">
+                        <div class="faq-question">
+                            <span>Le serveur est-il gratuit ?</span>
+                            <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            Oui, le serveur Heiwa est entièrement gratuit! Vous pouvez jouer sans payer. Les grades et objets disponibles dans la boutique sont optionnels et servent à soutenir le serveur tout en offrant des avantages.
+                        </div>
+                    </div>
+
+                    <!-- Grades Questions -->
+                    <div class="faq-item" data-category="grades">
+                        <div class="faq-question">
+                            <span>Comment recevoir mon grade après achat ?</span>
+                            <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            Une fois votre achat effectué, le grade est automatiquement attribué à votre compte Minecraft. Assurez-vous d'être connecté sur le serveur avec le pseudo utilisé lors de l'achat. Si le grade ne s'active pas, déconnectez-vous et reconnectez-vous.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="grades">
+                        <div class="faq-question">
+                            <span>Les grades sont-ils permanents ?</span>
+                            <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            Les grades VIP et VIP+ sont mensuels et doivent être renouvelés chaque mois. Le grade Elite est permanent et ne nécessite aucun renouvellement. Vous recevrez une notification avant l'expiration de votre grade.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="grades">
+                        <div class="faq-question">
+                            <span>Puis-je cumuler plusieurs grades ?</span>
+                            <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            Non, vous ne pouvez avoir qu'un seul grade actif à la fois. Les grades supérieurs incluent tous les avantages des grades inférieurs. Vous pouvez passer à un grade supérieur à tout moment.
+                        </div>
+                    </div>
+
+                    <!-- Boutique Questions -->
+                    <div class="faq-item" data-category="boutique">
+                        <div class="faq-question">
+                            <span>Quels moyens de paiement sont acceptés ?</span>
+                            <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            Nous acceptons les cartes bancaires (Visa, Mastercard), PayPal, et les cartes cadeaux. Tous les paiements sont sécurisés via notre partenaire de paiement certifié.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="boutique">
+                        <div class="faq-question">
+                            <span>Comment obtenir un remboursement ?</span>
+                            <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            Pour demander un remboursement, contactez notre support dans les 14 jours suivant l'achat en expliquant la raison. Les remboursements sont traités selon notre politique disponible sur la page remboursement.html.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="boutique">
+                        <div class="faq-question">
+                            <span>Les achats sont-ils transférables ?</span>
+                            <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            Non, les achats sont liés à votre compte Minecraft et ne sont pas transférables à d'autres joueurs. Toute tentative de vente ou échange d'achats est interdite et peut entraîner une sanction.
+                        </div>
+                    </div>
+
+                    <!-- Technique Questions -->
+                    <div class="faq-item" data-category="technique">
+                        <div class="faq-question">
+                            <span>Je rencontre des lags, que faire ?</span>
+                            <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            Pour réduire les lags, essayez de baisser la distance de rendu dans les options Minecraft, fermez les autres programmes, et assurez-vous d'avoir une connexion internet stable. Si le problème persiste, contactez notre support.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="technique">
+                        <div class="faq-question">
+                            <span>Comment signaler un bug ?</span>
+                            <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            Pour signaler un bug, utilisez la commande /bug en jeu ou contactez notre support sur Discord. Décrivez le bug en détail et, si possible, fournissez des captures d'écran.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="technique">
+                        <div class="faq-question">
+                            <span>Je ne peux pas me connecter au serveur</span>
+                            <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            Vérifiez que vous utilisez la bonne version (1.20.x), que l'IP est correcte (play.heiwa.mc), et que votre compte Minecraft est premium. Si le problème persiste, le serveur est peut-être en maintenance.
+                        </div>
+                    </div>
+
+                    <!-- Rules Questions -->
+                    <div class="faq-item" data-category="regles">
+                        <div class="faq-question">
+                            <span>Quelles sont les sanctions pour triche ?</span>
+                            <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            L'utilisation de cheats ou hacks entraîne un bannissement temporaire de 30 à 90 jours pour la première infraction. En cas de récidive, le bannissement peut être permanent. Consultez la page regles.html pour plus de détails.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="regles">
+                        <div class="faq-question">
+                            <span>Comment protéger mes constructions ?</span>
+                            <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            Utilisez les commandes de protection comme /claim pour protéger vos zones. Vous pouvez également utiliser des chunks privés et demander au staff une protection supplémentaire pour les constructions importantes.
+                        </div>
+                    </div>
+
+                    <div class="faq-item" data-category="regles">
+                        <div class="faq-question">
+                            <span>Puis-je jouer avec mes amis ?</span>
+                            <span class="icon"><i class="fas fa-chevron-down"></i></span>
+                        </div>
+                        <div class="faq-answer">
+                            Oui! Vous pouvez former des équipes avec vos amis, construire ensemble, et partager des ressources. Assurez-vous simplement que tous les membres respectent les règles du serveur.
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Contact Section -->
+            <section class="contact-section">
+                <h2>Vous ne trouvez pas votre réponse ?</h2>
+                <p>Notre équipe de support est là pour vous aider avec toutes vos questions</p>
+                <div class="contact-buttons">
+                    <a href="support.html" class="btn btn-primary">
+                        <i class="fas fa-headset"></i> Contacter le Support
+                    </a>
+                    <a href="#" class="btn btn-secondary">
+                        <i class="fab fa-discord"></i> Rejoindre Discord
+                    </a>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-content">
+            <div class="footer-section">
+                <h3>Heiwa Serveur</h3>
+                <p>Le meilleur serveur Minecraft pour votre aventure</p>
+                <div class="social-links">
+                    <a href="https://discord.gg/Vk64XqRD" target="_blank"><i class="fab fa-discord"></i></a>
+                    <a href="#"><i class="fab fa-twitter"></i></a>
+                    <a href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="footer-section">
+                <h3>Liens Utiles</h3>
+                <ul>
+                    <li><a href="regles.html">Règles du serveur</a></li>
+                    <li><a href="support.html">Support</a></li>
+                    <li><a href="faq.html">FAQ</a></li>
+                    <li><a href="boutique.html">Boutique</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h3>Informations</h3>
+                <ul>
+                    <li><a href="conditions.html">Conditions d'utilisation</a></li>
+                    <li><a href="privacy.html">Politique de confidentialité</a></li>
+                    <li><a href="remboursement.html">Politique de remboursement</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Heiwa Serveur Minecraft. Tous droits réservés.</p>
+        </div>
+    </footer>
+
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize user coins from auth system
+            if (typeof initializeCoins === 'function') {
+                initializeCoins();
+            }
+            
+            // Check login status and update buttons
+            const isLoggedIn = checkLoginStatus();
+            updateAuthButtons(isLoggedIn);
+            
+            // FAQ Accordion
+            const faqItems = document.querySelectorAll('.faq-item');
+            
+            faqItems.forEach(item => {
+                const question = item.querySelector('.faq-question');
+                
+                question.addEventListener('click', () => {
+                    // Close other items
+                    faqItems.forEach(otherItem => {
+                        if (otherItem !== item) {
+                            otherItem.classList.remove('active');
+                        }
+                    });
+                    
+                    // Toggle current item
+                    item.classList.toggle('active');
+                });
+            });
+
+            // Mobile menu toggle
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.classList.toggle('active');
+            });
+        });
+
+        function checkLoginStatus() {
+            const currentUser = getCurrentUser();
+            return currentUser !== null;
+        }
+
+        function getCurrentUser() {
+            const user = localStorage.getItem('currentUser');
+            return user ? JSON.parse(user) : null;
+        }
+
+        function updateAuthButtons(isLoggedIn) {
+            const userSection = document.querySelector('.user-info');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (userSection) {
+                if (isLoggedIn) {
+                    const currentUser = getCurrentUser();
+                    userSection.innerHTML = `
+                        <div class="coins-display">
+                            <i class="fas fa-coins"></i>
+                            <span id="user-coins">${currentUser.coins}</span>
+                        </div>
+                        <a href="#" onclick="logout()" class="login-btn">
+                            <i class="fas fa-sign-out-alt"></i> Déconnexion
+                        </a>
+                    `;
+                } else {
+                    userSection.innerHTML = `
+                        <div class="coins-display">
+                            <i class="fas fa-coins"></i>
+                            <span id="user-coins">0</span>
+                        </div>
+                        <a href="login.html" class="login-btn">
+                            <i class="fas fa-sign-in-alt"></i> Se connecter
+                        </a>
+                    `;
+                }
+                
+                // Remove Admin link from navigation if it exists
+                if (navMenu) {
+                    const adminLink = navMenu.querySelector('.admin-nav-link');
+                    if (adminLink) {
+                        adminLink.parentElement.remove();
+                    }
+                }
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            location.reload();
+        }
+        const style = document.createElement('style');
+        style.textContent = `
+            .nav-menu.active {
+                display: flex !important;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(255, 255, 255, 0.95);
+                flex-direction: column;
+                padding: 1rem;
+                box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            }
+            .hamburger.active span:nth-child(1) {
+                transform: rotate(-45deg) translate(-5px, 6px);
+            }
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active span:nth-child(3) {
+                transform: rotate(45deg) translate(-5px, -6px);
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>

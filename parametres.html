@@ -1,0 +1,1058 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paramètres - Heiwa Serveur Minecraft</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #8b5cf6 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background particles */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                /* Cercles flottants */
+                radial-gradient(circle at 20% 80%, rgba(139, 92, 246, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(118, 75, 162, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(102, 126, 234, 0.2) 0%, transparent 50%),
+                /* Motifs géométriques */
+                conic-gradient(from 45deg at 10% 90%, rgba(139, 92, 246, 0.1) 0deg, transparent 60deg, transparent 300deg, rgba(139, 92, 246, 0.1) 360deg),
+                conic-gradient(from 135deg at 90% 10%, rgba(118, 75, 162, 0.1) 0deg, transparent 60deg, transparent 300deg, rgba(118, 75, 162, 0.1) 360deg),
+                /* Lignes décoratives */
+                linear-gradient(45deg, transparent 48%, rgba(139, 92, 246, 0.1) 49%, rgba(139, 92, 246, 0.1) 51%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, rgba(118, 75, 162, 0.1) 49%, rgba(118, 75, 162, 0.1) 51%, transparent 52%),
+                /* Points décoratifs */
+                radial-gradient(circle at 25% 25%, rgba(102, 126, 234, 0.15) 1px, transparent 2px),
+                radial-gradient(circle at 75% 75%, rgba(139, 92, 246, 0.15) 1px, transparent 2px),
+                radial-gradient(circle at 50% 10%, rgba(118, 75, 162, 0.15) 1px, transparent 2px);
+            background-size: 
+                100% 100%, 100% 100%, 100% 100%, 
+                200px 200px, 200px 200px,
+                100px 100px, 100px 100px,
+                50px 50px, 50px 50px, 50px 50px;
+            animation: 
+                float 20s ease-in-out infinite,
+                rotate-pattern 30s linear infinite;
+            z-index: -1;
+        }
+
+        /* Additional animated patterns */
+        body::after {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                /* Hexagon pattern */
+                repeating-linear-gradient(30deg, transparent, transparent 35px, rgba(139, 92, 246, 0.03) 35px, rgba(139, 92, 246, 0.03) 70px),
+                repeating-linear-gradient(-30deg, transparent, transparent 35px, rgba(118, 75, 162, 0.03) 35px, rgba(118, 75, 162, 0.03) 70px),
+                repeating-linear-gradient(90deg, transparent, transparent 35px, rgba(102, 126, 234, 0.03) 35px, rgba(102, 126, 234, 0.03) 70px);
+            animation: drift 25s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-20px) rotate(1deg); }
+            66% { transform: translateY(10px) rotate(-1deg); }
+        }
+
+        @keyframes rotate-pattern {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes drift {
+            0%, 100% { transform: translate(0, 0); }
+            25% { transform: translate(10px, -10px); }
+            50% { transform: translate(-10px, 10px); }
+            75% { transform: translate(10px, 10px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .navbar {
+            padding: 1rem 0;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .nav-logo a {
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo-img {
+            height: 50px;
+            width: auto;
+            filter: drop-shadow(0 2px 10px rgba(0, 0, 0, 0.3));
+            transition: all 0.3s ease;
+        }
+
+        .logo-img:hover {
+            transform: scale(1.05);
+            filter: drop-shadow(0 4px 15px rgba(0, 0, 0, 0.4));
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .nav-link {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 7px 14px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover {
+            color: white;
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .nav-link.active {
+            color: white;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(118, 75, 162, 0.3));
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 5px 20px rgba(139, 92, 246, 0.3);
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #764ba2;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+        }
+
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 3px 0;
+            transition: 0.3s;
+            border-radius: 2px;
+        }
+
+        /* User Info */
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .coins-display {
+            background: rgba(255, 215, 0, 0.2);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 25px;
+            padding: 8px 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .coins-display:hover {
+            background: rgba(255, 215, 0, 0.3);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.3);
+        }
+
+        .coins-display i {
+            color: #ffd700;
+            font-size: 1.2rem;
+            text-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+        }
+
+        .coins-display span {
+            color: white;
+            font-weight: 600;
+            font-size: 1.1rem;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .login-btn {
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid rgba(76, 175, 80, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
+        }
+
+        .login-btn:hover {
+            background: rgba(76, 175, 80, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .admin-btn {
+            background: rgba(220, 53, 69, 0.2);
+            border: 2px solid rgba(220, 53, 69, 0.3);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(10px);
+            font-size: 0.9rem;
+        }
+
+        .admin-btn:hover {
+            background: rgba(220, 53, 69, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .auth-buttons {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-top: 100px;
+            padding: 2rem 0;
+            min-height: calc(100vh - 100px);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .page-header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(45deg, #fff, #e0e7ff, #c7d2fe, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: text-glow 3s ease-in-out infinite alternate;
+        }
+
+        @keyframes text-glow {
+            from { filter: drop-shadow(0 0 20px rgba(139, 92, 246, 0.5)); }
+            to { filter: drop-shadow(0 0 30px rgba(139, 92, 246, 0.8)); }
+        }
+
+        .page-header p {
+            font-size: 1.3rem;
+            color: rgba(255, 255, 255, 0.9);
+            max-width: 600px;
+            margin: 0 auto;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            line-height: 1.8;
+        }
+
+        /* Settings Section */
+        .settings-section {
+            margin-bottom: 3rem;
+        }
+
+        .settings-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .settings-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2.5rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .settings-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.1), rgba(118, 75, 162, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .settings-card:hover::before {
+            opacity: 1;
+        }
+
+        .settings-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 25px 80px rgba(139, 92, 246, 0.4);
+            border-color: rgba(139, 92, 246, 0.3);
+        }
+
+        .settings-card h3 {
+            color: #c7d2fe;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-shadow: 0 2px 10px rgba(199, 210, 254, 0.3);
+        }
+
+        .settings-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .setting-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .setting-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            padding-left: 1rem;
+        }
+
+        .setting-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .setting-control {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 70px;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .toggle-switch::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, #8b5cf6, #764ba2);
+            border-radius: 18px;
+            transition: all 0.4s ease;
+        }
+
+        .toggle-switch.active::before {
+            transform: translateX(35px);
+        }
+
+        .toggle-switch.active {
+            background: linear-gradient(135deg, #8b5cf6, #764ba2);
+            border-color: rgba(139, 92, 246, 0.3);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .toggle-switch:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.2);
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            font-size: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.3);
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8b5cf6, #764ba2);
+            color: white;
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #333;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #dc3545, #c82333);
+            color: white;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            color: white;
+            padding: 3rem 0 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h3 {
+            margin-bottom: 1rem;
+            color: #c7d2fe;
+            text-shadow: 0 2px 10px rgba(199, 210, 254, 0.3);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section ul li {
+            margin-bottom: 0.8rem;
+        }
+
+        .footer-section a {
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            transition: all 0.3s ease;
+            padding: 5px 10px;
+            border-radius: 5px;
+            display: inline-block;
+        }
+
+        .footer-section a:hover {
+            color: #c7d2fe;
+            background: rgba(199, 210, 254, 0.1);
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .social-links a {
+            width: 45px;
+            height: 45px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            font-size: 1.2rem;
+        }
+
+        .social-links a:hover {
+            background: linear-gradient(135deg, #8b5cf6, #764ba2);
+            transform: translateY(-5px) rotate(360deg);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.4);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .hamburger {
+                display: flex;
+            }
+
+            .settings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+
+            .btn {
+                font-size: 0.9rem;
+                padding: 10px 20px;
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar">
+            <div class="nav-container">
+                <div class="nav-left">
+                    <div class="nav-logo">
+                        <a href="accueil.html">
+                            <img src="images/heiwalogo.png" alt="Heiwa Logo" class="logo-img">
+                        </a>
+                    </div>
+                    <ul class="nav-menu">
+                        <li><a href="accueil.html" class="nav-link">Accueil</a></li>
+                        <li><a href="boutique.html" class="nav-link">Boutique</a></li>
+                        <li><a href="grades.html" class="nav-link">Grades</a></li>
+                        <li><a href="support.html" class="nav-link">Support</a></li>
+                        <li><a href="regles.html" class="nav-link">Règles</a></li>
+                        <li><a href="faq.html" class="nav-link">FAQ</a></li>
+                        <li><a href="parametres.html" class="nav-link active">Paramètres</a></li>
+                        <li><a href="admin.html" class="nav-link admin-nav-link" style="display: none;">Admin</a></li>
+                    </ul>
+                </div>
+                <div class="nav-right">
+                    <div class="user-info">
+                        <div class="coins-display">
+                            <i class="fas fa-coins"></i>
+                            <span id="user-coins">0</span>
+                        </div>
+                        <a href="#" class="cart-icon" onclick="openCart()">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span class="cart-count" id="cart-count">0</span>
+                        </a>
+                        <a href="login.html" class="login-btn">
+                            <i class="fas fa-sign-in-alt"></i> Se connecter
+                        </a>
+                    </div>
+                    <div class="hamburger">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <div class="page-header">
+                <h1>Paramètres du Compte</h1>
+                <p>Personnalisez votre expérience sur Heiwa Serveur Minecraft</p>
+            </div>
+
+            <div class="settings-section">
+                <div class="settings-grid">
+                    <!-- Profile Settings -->
+                    <div class="settings-card">
+                        <h3><i class="fas fa-user"></i> Profil</h3>
+                        <div class="settings-group">
+                            <div class="setting-item">
+                                <span class="setting-label">Nom d'utilisateur</span>
+                                <div class="setting-control">
+                                    <span id="username-display">Chargement...</span>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <span class="setting-label">Email</span>
+                                <div class="setting-control">
+                                    <span id="email-display">Chargement...</span>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <span class="setting-label">Date de création</span>
+                                <div class="setting-control">
+                                    <span id="created-display">Chargement...</span>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <span class="setting-label">Dernière connexion</span>
+                                <div class="setting-control">
+                                    <span id="last-login-display">Chargement...</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Notification Settings -->
+                    <div class="settings-card">
+                        <h3><i class="fas fa-bell"></i> Notifications</h3>
+                        <div class="settings-group">
+                            <div class="setting-item">
+                                <span class="setting-label">Notifications par email</span>
+                                <div class="setting-control">
+                                    <div class="toggle-switch" id="email-notifications-toggle"></div>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <span class="setting-label">Notifications du jeu</span>
+                                <div class="setting-control">
+                                    <div class="toggle-switch" id="game-notifications-toggle"></div>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <span class="setting-label">Notifications système</span>
+                                <div class="setting-control">
+                                    <div class="toggle-switch" id="system-notifications-toggle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Privacy Settings -->
+                    <div class="settings-card">
+                        <h3><i class="fas fa-shield-alt"></i> Confidentialité</h3>
+                        <div class="settings-group">
+                            <div class="setting-item">
+                                <span class="setting-label">Profil public</span>
+                                <div class="setting-control">
+                                    <div class="toggle-switch" id="public-profile-toggle"></div>
+                                </div>
+                            </div>
+                            <div class="setting-item">
+                                <span class="setting-label">Afficher le statut en ligne</span>
+                                <div class="setting-control">
+                                    <div class="toggle-switch" id="online-status-toggle"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Account Actions -->
+                    <div class="settings-card">
+                        <h3><i class="fas fa-cogs"></i> Actions du compte</h3>
+                        <div class="settings-group account-actions">
+                            <button class="btn btn-primary" onclick="changePassword()">Changer le mot de passe</button>
+                            <button class="btn btn-secondary" onclick="exportData()">Exporter mes données</button>
+                            <button class="btn btn-danger" onclick="deleteAccount()">Supprimer le compte</button>
+                            <a href="admin.html" class="btn btn-primary" id="admin-access-btn" style="display: none;">
+                                <i class="fas fa-cog"></i> Accès Admin
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Heiwa Serveur</h3>
+                    <p>Le meilleur serveur Minecraft pour votre aventure</p>
+                    <div class="social-links">
+                        <a href="https://discord.gg/Vk64XqRD" target="_blank"><i class="fab fa-discord"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section">
+                    <h3>Liens Utiles</h3>
+                    <ul>
+                        <li><a href="regles.html">Règles du serveur</a></li>
+                        <li><a href="support.html">Support</a></li>
+                        <li><a href="faq.html">FAQ</a></li>
+                        <li><a href="grades.html">Grades</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h3>Informations</h3>
+                    <ul>
+                        <li><a href="conditions.html">Conditions d'utilisation</a></li>
+                        <li><a href="privacy.html">Politique de confidentialité</a></li>
+                        <li><a href="remboursement.html">Politique de remboursement</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2024 Heiwa Serveur Minecraft. Tous droits réservés.</p>
+            </div>
+        </div>
+    </footer>
+
+
+    <script src="js/auth.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize user coins from auth buttons
+            initializeUserCoinsFromUser();
+            
+            // Update auth buttons based on login status
+            const currentUser = getCurrentUser();
+            updateAuthButtons(!!currentUser);
+            
+            // Show admin button for admin users
+            const adminBtn = document.getElementById('admin-access-btn');
+            if (adminBtn) {
+                if (currentUser && currentUser.isAdmin) {
+                    adminBtn.style.display = 'inline-block';
+                } else {
+                    adminBtn.style.display = 'none';
+                }
+            }
+            
+            // Show admin link in navigation for admin users
+            const adminNav = document.querySelector('.admin-nav-link');
+            if (adminNav) {
+                if (currentUser && currentUser.isAdmin) {
+                    adminNav.style.display = 'block';
+                } else {
+                    adminNav.style.display = 'none';
+                }
+            }
+            
+            // Mobile menu
+            const hamburger = document.querySelector('.hamburger');
+            const navMenu = document.querySelector('.nav-menu');
+
+            hamburger.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                hamburger.classList.toggle('active');
+            });
+        });
+
+        function initializeUserCoinsFromUser() {
+            const currentUser = getCurrentUser();
+            if (currentUser) {
+                updateCoinsDisplay(currentUser.coins);
+            } else {
+                updateCoinsDisplay(0);
+            }
+        }
+
+        function updateCoinsDisplay(amount) {
+            const coinsElement = document.getElementById('user-coins');
+            if (coinsElement) {
+                coinsElement.textContent = amount.toLocaleString();
+            }
+        }
+
+        function updateAuthButtons(isLoggedIn) {
+            const userSection = document.querySelector('.user-info');
+            const navMenu = document.querySelector('.nav-menu');
+            
+            if (userSection) {
+                if (isLoggedIn) {
+                    const currentUser = getCurrentUser();
+                    userSection.innerHTML = `
+                        <div class="coins-display">
+                            <i class="fas fa-coins"></i>
+                            <span id="user-coins">${currentUser.coins}</span>
+                        </div>
+                        <a href="#" onclick="logout()" class="login-btn">
+                            <i class="fas fa-sign-out-alt"></i> Déconnexion
+                        </a>
+                    `;
+                    
+                    // Add Admin link in account actions if user is admin
+                    if (currentUser.isAdmin) {
+                        const accountActions = document.querySelector('.account-actions');
+                        if (accountActions) {
+                            // Remove any existing admin link first
+                            const existingLink = accountActions.querySelector('.admin-action-link');
+                            if (existingLink) {
+                                existingLink.remove();
+                            }
+                            
+                            // Create and add admin link
+                            const adminLink = document.createElement('a');
+                            adminLink.href = 'admin.html';
+                            adminLink.className = 'btn-primary admin-action-link';
+                            adminLink.innerHTML = '<i class="fas fa-cog"></i> Accès Admin';
+                            adminLink.style.display = 'block';
+                            adminLink.style.margin = '5px 0';
+                            accountActions.appendChild(adminLink);
+                        }
+                    }
+                } else {
+                    userSection.innerHTML = `
+                        <div class="coins-display">
+                            <i class="fas fa-coins"></i>
+                            <span id="user-coins">0</span>
+                        </div>
+                        <a href="login.html" class="login-btn">
+                            <i class="fas fa-sign-in-alt"></i> Se connecter
+                        </a>
+                    `;
+                    
+                    // Remove Admin link from navigation if it exists
+                    if (navMenu) {
+                        const adminLink = navMenu.querySelector('.admin-nav-link');
+                        if (adminLink) {
+                            adminLink.parentElement.remove();
+                        }
+                    }
+                    
+                    // Remove Admin link from account actions if it exists
+                    const accountActions = document.querySelector('.account-actions');
+                    if (accountActions) {
+                        const adminLink = accountActions.querySelector('.admin-action-link');
+                        if (adminLink) {
+                            adminLink.remove();
+                        }
+                    }
+                }
+            }
+        }
+
+        function logout() {
+            localStorage.removeItem('currentUser');
+            window.location.href = 'accueil.html';
+        }
+
+        function loadUserData() {
+            const currentUser = getCurrentUser();
+            if (currentUser) {
+                document.getElementById('username-display').textContent = currentUser.username;
+                document.getElementById('email-display').textContent = currentUser.email;
+                document.getElementById('created-display').textContent = new Date(currentUser.createdAt).toLocaleDateString('fr-FR');
+                document.getElementById('last-login-display').textContent = new Date(currentUser.lastLogin).toLocaleDateString('fr-FR');
+            } else {
+                document.getElementById('username-display').textContent = 'Non connecté';
+                document.getElementById('email-display').textContent = '-';
+                document.getElementById('created-display').textContent = '-';
+                document.getElementById('last-login-display').textContent = '-';
+            }
+        }
+
+        function getCurrentUser() {
+            const user = localStorage.getItem('currentUser');
+            return user ? JSON.parse(user) : null;
+        }
+
+        function changePassword() {
+            const currentUser = getCurrentUser();
+            if (currentUser) {
+                const newPassword = prompt('Entrez votre nouveau mot de passe:');
+                if (newPassword && newPassword.length >= 6) {
+                    // Update user password (in real app, would need server API call)
+                    alert('Mot de passe changé avec succès!');
+                }
+            } else {
+                alert('Vous devez être connecté pour changer votre mot de passe.');
+            }
+        }
+
+        function exportData() {
+            const currentUser = getCurrentUser();
+            if (currentUser) {
+                const userData = {
+                    username: currentUser.username,
+                    email: currentUser.email,
+                    createdAt: currentUser.createdAt,
+                    lastLogin: currentUser.lastLogin,
+                    coins: currentUser.coins
+                };
+                
+                const dataStr = JSON.stringify(userData, null, 2);
+                const dataBlob = new Blob([dataStr], {type: 'application/json'});
+                const url = URL.createObjectURL(dataBlob);
+                const link = document.createElement('a');
+                link.href = url;
+                link.download = 'heiwa-user-data.json';
+                link.click();
+                URL.revokeObjectURL(url);
+                
+                alert('Données exportées avec succès!');
+            } else {
+                alert('Vous devez être connecté pour exporter vos données.');
+            }
+        }
+
+        function deleteAccount() {
+            const currentUser = getCurrentUser();
+            if (currentUser && confirm('Êtes-vous sûr de vouloir supprimer votre compte? Cette action est irréversible.')) {
+                // Remove from localStorage (in real app, would need server API call)
+                localStorage.removeItem('currentUser');
+                
+                // Remove from users array
+                const users = JSON.parse(localStorage.getItem('users') || '[]');
+                const updatedUsers = users.filter(u => u.id !== currentUser.id);
+                localStorage.setItem('users', JSON.stringify(updatedUsers));
+                
+                alert('Compte supprimé avec succès');
+                window.location.href = 'accueil.html';
+            } else {
+                alert('Vous devez être connecté pour supprimer votre compte.');
+            }
+        }
+
+        // Toggle switches functionality
+        document.getElementById('email-notifications-toggle')?.addEventListener('click', function() {
+            this.classList.toggle('active');
+            localStorage.setItem('emailNotifications', this.classList.contains('active'));
+        });
+
+        document.getElementById('game-notifications-toggle')?.addEventListener('click', function() {
+            this.classList.toggle('active');
+            localStorage.setItem('gameNotifications', this.classList.contains('active'));
+        });
+
+        document.getElementById('system-notifications-toggle')?.addEventListener('click', function() {
+            this.classList.toggle('active');
+            localStorage.setItem('systemNotifications', this.classList.contains('active'));
+        });
+
+        document.getElementById('public-profile-toggle')?.addEventListener('click', function() {
+            this.classList.toggle('active');
+            localStorage.setItem('publicProfile', this.classList.contains('active'));
+        });
+
+        document.getElementById('online-status-toggle')?.addEventListener('click', function() {
+            this.classList.toggle('active');
+            localStorage.setItem('onlineStatus', this.classList.contains('active'));
+        });
+
+        // Load settings from localStorage
+        document.getElementById('email-notifications-toggle')?.classList.toggle(localStorage.getItem('emailNotifications') === 'true');
+        document.getElementById('game-notifications-toggle')?.classList.toggle(localStorage.getItem('gameNotifications') === 'true');
+        document.getElementById('system-notifications-toggle')?.classList.toggle(localStorage.getItem('systemNotifications') === 'true');
+        document.getElementById('public-profile-toggle')?.classList.toggle(localStorage.getItem('publicProfile') === 'true');
+        document.getElementById('online-status-toggle')?.classList.toggle(localStorage.getItem('onlineStatus') === 'true');
+    </script>
+
+    <style>
+        .nav-menu.active {
+            display: flex !important;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            flex-direction: column;
+            padding: 1rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(-45deg) translate(-5px, 6px);
+            background: white;
+        }
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(45deg) translate(-5px, -6px);
+            background: white;
+        }
+    </style>
+</body>
+</html>
